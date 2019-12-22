@@ -1,0 +1,258 @@
+/*
+    rgk-select
+    Ivan Kolesnikov, myivanko@gmail.com
+    Version: 05.04.16
+*/
+
+.rgk-select {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    width: 100%;
+    text-align: left;
+}
+.rgk-select--open {
+    z-index: 999;
+}
+.rgk-select--touch {
+    overflow: hidden;
+}
+.rgk-select > select {
+    position: absolute;
+    z-index: 4;
+    top: 0;
+    left: 0;
+    width: 1px !important;
+    height: 1px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    color: transparent !important;
+    font-size: 50px !important;
+    opacity: 0 !important;
+}
+.rgk-select--touch > select {
+    width: 100% !important;
+    height: 100% !important;
+}
+.rgk-select__toggler {
+    position: relative;
+    z-index: 2;
+    display: block;
+    height: 30px;
+    padding: 0 30px 0 10px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    color: #000;
+    font-size: 12px;
+    line-height: 30px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: default;
+    -webkit-transition: border-color .5s ease;
+            transition: border-color .5s ease;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+.rgk-select__toggler::before {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    width: 4px;
+    height: 4px;
+    margin-top: -4px;
+    border: 1px solid #666;
+    border-width: 0 1px 1px 0;
+    transform: rotate(45deg);
+    content: "";
+}
+.rgk-select__toggler:hover::before,
+.rgk-select > select:hover + .rgk-select__toggler::before {
+    border-color: #000;
+}
+.rgk-select--open > .rgk-select__toggler,
+.rgk-select > select:focus + .rgk-select__toggler {
+    border-color: #aaa;
+}
+.rgk-select--open > .rgk-select__toggler:before,
+.rgk-select > select:focus + .rgk-select__toggler:before {
+    border-color: #000;
+}
+.rgk-select__toggler--muted {
+    color: #999;
+}
+.rgk-select > select:not([multiple]) + .rgk-select__toggler::after {
+    visibility: hidden;
+    color: transparent;
+    content: attr(data-longest);
+}
+.rgk-select__value {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: inherit;
+    overflow: hidden;
+}
+.rgk-select > select[multiple] + .rgk-select__toggler {
+    height: auto;
+    min-height: 26px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 1px;
+    line-height: 1;
+    white-space: normal;
+}
+.rgk-select > select[multiple] + .rgk-select__toggler--muted {
+    height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-left: 10px;
+    line-height: 30px;
+    white-space: nowrap;
+}
+.rgk-select__selected {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    height: 26px;
+    margin: 1px;
+    padding: 0 20px 0 6px;
+    background-color: #ddd;
+    line-height: 26px;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+.rgk-select__selected::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    content: "\00d7";
+    text-align: center;
+}
+.rgk-select__selected:hover {
+    background-color: #ccc;
+    color: inherit;
+}
+.rgk-select__clear {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    width: 26px;
+    height: 26px;
+    margin: 1px;
+    background-color: #669cff;
+    color: #fff;
+    font-size: 0;
+    line-height: 26px;
+}
+.rgk-select__clear::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    content: "\00d7";
+    font-size: 14px;
+    text-align: center;
+}
+.rgk-select__clear:hover {
+    background-color: #ccc;
+    color: inherit;
+}
+.rgk-select__dropdown {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    z-index: 1;
+    display: none;
+    width: 100%;
+    margin-top: -1px;
+    overflow: hidden;
+    color: #000;
+    font-size: 12px;
+}
+.rgk-select--open > .rgk-select__dropdown {
+    display: block;
+}
+.rgk-select--up > .rgk-select__dropdown {
+    top: auto;
+    bottom: 100%;
+    margin-top: 0;
+    margin-bottom: -1px;
+}
+.rgk-select--right > .rgk-select__dropdown {
+    right: 0;
+    left: auto;
+}
+.rgk-select__list {
+    position: relative;
+    display: block;
+    max-height: 150px;
+    border: 1px solid #aaa;
+    background-color: #fff;
+    overflow-x: hidden;
+}
+.rgk-select__item {
+    display: block;
+    height: 20px;
+    padding: 0 10px;
+    overflow: hidden;
+    line-height: 20px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: default;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+.rgk-select__item:hover {
+    background-color: #eee;
+}
+.rgk-select__item--muted {
+    background-color: #f1f1f1;
+    color: #666;
+}
+.rgk-select__item--focus {
+    outline: 1px dotted #666;
+}
+.rgk-select__item--selected,
+.rgk-select__item--selected:hover {
+    background-color: #669cff;
+    color: #fff;
+}
+.rgk-select__item[disabled],
+.rgk-select__item[disabled]:hover,
+.rgk-select__optgroup[disabled] .rgk-select__item,
+.rgk-select__optgroup[disabled] .rgk-select__optlabel {
+    background-color: transparent;
+    color: #bbb;
+    font-style: normal;
+}
+.rgk-select__optlabel {
+    display: block;
+    height: 20px;
+    padding: 0 10px;
+    font-weight: bold;
+    font-style: italic;
+    line-height: 20px;
+    cursor: default;
+}
+.rgk-select__optgroup .rgk-select__item {
+    padding-left: 20px;
+}
+.rgk-select > select[disabled],
+.rgk-select > select[disabled] + .rgk-select__toggler {
+    pointer-events: none;
+    cursor: not-allowed;
+}
+.rgk-select > select[disabled] + .rgk-select__toggler {
+    opacity: .5;
+}

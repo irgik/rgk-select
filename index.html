@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title></title>
+
+    <meta charset="utf-8" />
+
+    <link href="css/rgk-select.css" rel="stylesheet" />
+    <script src="js/rgk.select.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+            width: 900px;
+            margin: 0 auto;
+        }
+        hr {
+            box-sizing: content-box;
+            height: 0;
+            margin: 1.5em 0;
+            overflow: visible;
+            border: 0;
+            border-top: 1px solid #eaecef;
+        }
+        .form-group {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .form-group > label {
+            display: inline-block;
+            vertical-align: middle;
+            width: 150px;
+            font-size: 12px;
+        }
+        .form-item {
+            display: inline-block;
+            vertical-align: middle;
+            width: 300px;
+            padding-right: 30px;
+        }
+        .form-btn {
+            display: inline-block;
+            vertical-align: middle;
+            width: 380px;
+        }
+
+        .language-html {
+            display: block;
+            margin-bottom: 1.5em;
+            background-color: #f8f8f8;
+            color: #535353;
+            font-size: inherit;
+            line-height: 1.2;
+            white-space: pre;
+        }
+        .nt {
+            color: #446fbd;
+        }
+        .na {
+            color: #6d8600;
+        }
+        .nx {
+            color: #8757ad;
+        }
+        .s {
+            color: #e88501;
+        }
+        .cm {
+            color: #949494;
+        }
+    </style>
+
+    <script>
+        function toggleState(selector, attr) {
+            document.querySelectorAll(selector).forEach(function(item) {
+                item[attr] = !item[attr];
+            });
+        }
+        function addOption(selector) {
+            if (!selector) return;
+            var select = document.querySelector(selector),
+                opt = document.createElement('option');
+            opt.value = 'value'+ select.options.length;
+            opt.innerHTML = 'Option'+ select.options.length;
+            select.appendChild(opt);
+            select.options[select.options.length - 1].selected = true;
+        }
+    </script>
+</head>
+
+<body>
+
+<h1>rgk-select</h1>
+<p>rgkSelect is lightweight and simple customization script for select boxes.</p>
+
+<hr>
+
+<h2>Basic initialisation</h2>
+
+<p>Just simple select item:</p>
+<code class="language-html" data-lang="html">
+    <span class="nt">&lt;select</span> <span class="na">id=</span><span class="s">"selectSimple"</span> <span class="na">name=</span><span class="s">"select-simple"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;option&gt;</span>Bangladesh<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;option&gt;</span>Botswana<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;option&gt;</span>Canada<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;option</span> <span class="na">disabled</span><span class="nt">&gt;</span>Dubai (disabled)<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;option&gt;</span>Ghana<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;option&gt;</span>Lesotho<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;option&gt;</span>Malawi<span class="nt">&lt;/option&gt;</span>
+    <span class="nt">&lt;/select&gt;</span>
+    
+</code>
+<p>Initialization:</p>
+<code class="language-html" data-lang="js">
+    rgkSelect(<span class="s">'#selectSimple'</span>);
+    
+</code>
+
+<div class="form-group">
+    <label for="selectSimple">Select simple</label>
+    <div class="form-item">
+        <select id="selectSimple" name="select-simple">
+            <option>Bangladesh</option>
+            <option>Botswana</option>
+            <option>Canada</option>
+            <option disabled>Dubai</option>
+            <option>Ghana</option>
+            <option>Lesotho</option>
+            <option>Malawi</option>
+        </select>
+    </div>
+    <script>
+        rgkSelect('#selectSimple');
+    </script>
+</div>
+
+<p>Element selector can be as css selector string or js object. For example:</p>
+<code class="language-html" data-lang="js">
+    <span class="nt">var</span> <span class="nx">mySelect</span> = document.<span class="nx">getElementById</span>(<span class="s">'#selectSimple'</span>),
+        <span class="nx">mySelects</span> = document.<span class="nx">querySelectorAll</span>(<span class="s">'select'</span>);
+
+    rgkSelect(<span class="s">'form > select.class-name:not(.no-styling)'</span>); <span class="cm">// css selector string</span>
+    rgkSelect(<span class="s">mySelect</span>); <span class="cm">// Single element object</span>
+    rgkSelect(<span class="s">mySelects</span>); <span class="cm">// List of elements objects</span>
+    
+</code>
+
+<p>Also supports multiple choices:</p>
+<code class="language-html" data-lang="html">
+    <span class="nt">&lt;select</span> <span class="na">id=</span><span class="s">"selectMulti"</span> <span class="na">name=</span><span class="s">"select-multi"</span> <span class="na">multiple</span> <span class="na">size=</span><span class="s">"3"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;option&gt;</span>Bangladesh<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;option&gt;</span>Botswana<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;option&gt;</span>Canada<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;option</span> <span class="na">disabled</span><span class="nt">&gt;</span>Dubai (disabled)<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;option&gt;</span>Ghana<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;option&gt;</span>Lesotho<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;option&gt;</span>Malawi<span class="nt">&lt;/option&gt;</span>
+    <span class="nt">&lt;/select&gt;</span>
+    
+</code>
+<div class="form-group">
+    <label for="selectMulti">Select multiple</label>
+    <div class="form-item">
+        <select id="selectMulti" name="select-multi" multiple size="3">
+            <option selected>Bangladesh</option>
+            <option selected>Botswana</option>
+            <option>Canada</option>
+            <option disabled>Dubai</option>
+            <option>Ghana</option>
+            <option>Lesotho</option>
+            <option>Malawi</option>
+        </select>
+    </div>
+    <script>
+        rgkSelect('#selectMulti');
+    </script>
+</div>
+
+
+<h2>Placeholder</h2>
+<p>If you need add placeholder to your select, just use <span class="na">data-placeholder</span> attribute on one of options (preferably first) for "Single select" and on element itself for "Multiple select":</p>
+<code class="language-html" data-lang="html">
+    <span class="nt">&lt;select</span> <span class="na">id=</span><span class="s">"selectPlaceholderSingle"</span> <span class="na">name=</span><span class="s">"select-placeholder"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;option</span> <span class="na">data-placeholder</span> <span class="na">selected</span><span class="nt">&gt;</span>Choose country<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;option&gt;</span>Bangladesh<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;option&gt;</span>Botswana<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;option&gt;</span>Canada<span class="nt">&lt;/option&gt;</span>
+    <span class="nt">&lt;/select&gt;</span>
+    
+    <span class="nt">&lt;select</span> <span class="na">id=</span><span class="s">"selectPlaceholderMulti"</span> <span class="na">name=</span><span class="s">"select-placeholder"</span> <span class="na">multiple</span> <span class="na">data-placeholder=</span><span class="s">"Choose country"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;option&gt;</span>Bangladesh<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;option&gt;</span>Botswana<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;option&gt;</span>Canada<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;option&gt;</span>Ghana<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;option&gt;</span>Lesotho<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;option&gt;</span>Malawi<span class="nt">&lt;/option&gt;</span>
+    <span class="nt">&lt;/select&gt;</span>
+    
+</code>
+<div class="form-group">
+    <label for="selectPlaceholderSingle">Select with placeholder</label>
+    <div class="form-item">
+        <select id="selectPlaceholderSingle" name="select-placeholder">
+            <option data-placeholder selected>Choose country</option>
+            <option>Bangladesh</option>
+            <option>Botswana</option>
+            <option>Canada</option>
+        </select>
+    </div>
+    <script>
+        rgkSelect('#selectPlaceholderSingle');
+    </script>
+</div>
+<div class="form-group">
+    <label for="selectPlaceholderMulti">Multiple select with placeholder</label>
+    <div class="form-item">
+        <select id="selectPlaceholderMulti" name="select-placeholder" multiple data-placeholder="Choose country">
+            <option>Bangladesh</option>
+            <option>Botswana</option>
+            <option>Canada</option>
+            <option>Ghana</option>
+            <option>Lesotho</option>
+            <option>Malawi</option>
+        </select>
+    </div>
+    <script>
+        rgkSelect('#selectPlaceholderMulti');
+    </script>
+</div>
+
+<h2>Select all items</h2>
+<p>If you need option which selects all items in multiple select - just add <span class="na">data-all</span> attribute to select element:</p>
+<code class="language-html" data-lang="html">
+    <span class="nt">&lt;select</span> <span class="na">id=</span><span class="s">"selectMultiAll"</span> <span class="na">name=</span><span class="s">"select-multi"</span> <span class="na">multiple</span> <span class="na">data-all=</span><span class="s">"Select all items"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;option&gt;</span>Bangladesh<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;option&gt;</span>Botswana<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;option&gt;</span>Canada<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;option&gt;</span>Ghana<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;option&gt;</span>Lesotho<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;option&gt;</span>Malawi<span class="nt">&lt;/option&gt;</span>
+    <span class="nt">&lt;/select&gt;</span>
+    
+</code>
+<div class="form-group">
+    <label for="selectMultiAll">Multiple select with "select all" option</label>
+    <div class="form-item">
+        <select id="selectMultiAll" name="select-placeholder" multiple data-placeholder="Choose country" data-all="Select all items">
+            <option>Bangladesh</option>
+            <option>Botswana</option>
+            <option>Canada</option>
+            <option>Ghana</option>
+            <option>Lesotho</option>
+            <option>Malawi</option>
+        </select>
+    </div>
+    <script>
+        rgkSelect('#selectMultiAll');
+    </script>
+</div>
+
+
+<h2>Methods</h2>
+<p>rgkSelect can take aso second argument - method (not required):</p>
+<h4 class="nx">init</h4>
+<p>Initializes the plugin. Can be omitted as called by default.</p>
+<code class="language-html" data-lang="js">
+    rgkSelect(<span class="s">'#selectSimple'</span>, <span class="s">'init'</span>); <span class="cm">the same as</span> rgkSelect(<span class="s">'#selectSimple'</span>);
+    
+</code>
+<h4 class="nx">build</h4>
+<p>This method run 'rebuilding' html structure of 'visual select'. Need to use, when structure or 'original select' was changed.</p>
+<code class="language-html" data-lang="js">
+    rgkSelect(<span class="s">'#selectSimple'</span>, <span class="s">'build'</span>);
+    
+</code>
+<div class="form-group">
+    <label for="selectBuild">Select build</label>
+    <div class="form-item">
+        <select id="selectBuild" name="select-method">
+            <option>Bangladesh</option>
+            <option>Botswana</option>
+            <option>Canada</option>
+            <option disabled>Dubai</option>
+            <option>Ghana</option>
+            <option>Lesotho</option>
+            <option>Malawi</option>
+        </select>
+    </div>
+    <div class="form-btn">
+        <button type="button" onclick="addOption('#selectBuild'); rgkSelect('#selectBuild', 'build');">Add option</button>
+    </div>
+    <script>
+        rgkSelect('#selectBuild');
+    </script>
+</div>
+<h4 class="nx">update</h4>
+<p>Just update visual select values. Need to use, when 'original select' values was updated dynamically.</p>
+<code class="language-html" data-lang="js">
+    rgkSelect(<span class="s">'#selectSimple'</span>, <span class="s">'update'</span>);
+    
+</code>
+<div class="form-group">
+    <label for="selectUpdate">Select update</label>
+    <div class="form-item">
+        <select id="selectUpdate" name="select-method">
+            <option>Bangladesh</option>
+            <option>Botswana</option>
+            <option>Canada</option>
+            <option disabled>Dubai</option>
+            <option>Ghana</option>
+            <option>Lesotho</option>
+            <option>Malawi</option>
+        </select>
+    </div>
+    <div class="form-btn">
+        <button type="button" onclick="getElementById('selectUpdate').selectedIndex = 2; rgkSelect('#selectUpdate', 'update');">Set 3rd selected</button>
+    </div>
+    <script>
+        rgkSelect('#selectUpdate');
+    </script>
+</div>
+<h4 class="nx">destroy</h4>
+<p>Remove plugin from element(s).</p>
+<code class="language-html" data-lang="js">
+    rgkSelect(<span class="s">'#selectSimple'</span>, <span class="s">'destroy'</span>);
+    
+</code>
+<div class="form-group">
+    <label for="selectDestroy">Select destroy</label>
+    <div class="form-item">
+        <select id="selectDestroy" name="select-method">
+            <option>Bangladesh</option>
+            <option>Botswana</option>
+            <option>Canada</option>
+            <option disabled>Dubai</option>
+            <option>Ghana</option>
+            <option>Lesotho</option>
+            <option>Malawi</option>
+        </select>
+    </div>
+    <div class="form-btn">
+        <button type="button" onclick="rgkSelect('#selectDestroy', 'destroy');">Destroy</button>
+    </div>
+    <script>
+        rgkSelect('#selectDestroy');
+    </script>
+</div>
+
+
+<h2>Events</h2>
+<p>rgkSelect provides two events attached to original select:</p>
+<h4 class="nx">show.rgk.select</h4>
+<p>Fires, when select dropdown is open</p>
+<code class="language-html" data-lang="js">
+    <span class="nt">var</span> <span class="nx">mySelect</span> = document.<span class="nx">getElementById</span>(<span class="s">'#selectSimple'</span>);
+    rgkSelect(<span class="s">mySelect</span>);
+    mySelect.<span class="nx">addEventListener</span>(<span class="s">'show.rgk.select'</span>, <span class="nt">function</span>() {
+        <span class="cm">// dropdown is open</span>
+    });
+    
+</code>
+<h4 class="nx">hide.rgk.select</h4>
+<p>Fires, when select dropdown is hidden</p>
+<code class="language-html" data-lang="js">
+    <span class="nt">var</span> <span class="nx">mySelect</span> = document.<span class="nx">getElementById</span>(<span class="s">'#selectSimple'</span>);
+    rgkSelect(<span class="s">mySelect</span>);
+    mySelect.<span class="nx">addEventListener</span>(<span class="s">'hide.rgk.select'</span>, <span class="nt">function</span>() {
+        <span class="cm">// dropdown is hidden</span>
+    });
+    
+</code>
+
+
+<h2>Examples</h2>
+
+<form>
+    <div class="form-group">
+        <label for="selectExampleMulti">Select multiple</label>
+        <div class="form-item">
+            <select id="selectExampleMulti" multiple size="3" data-placeholder="Choose country" data-all="Select all items">
+                <option>Bangladesh</option>
+                <option>Botswana</option>
+                <option>Canada</option>
+                <option disabled>Dubai</option>
+                <option>Ghana</option>
+                <option>Lesotho</option>
+                <option>Malawi</option>
+                <optgroup label="First group">
+                    <option>Mozambique</option>
+                    <option>Namibia</option>
+                    <option>Nigeria</option>
+                    <option>South Africa</option>
+                    <option>Swaziland</option>
+                    <option>Tanzania</option>
+                    <option>Uganda</option>
+                    <option>United Kingdom</option>
+                    <option>Zambia</option>
+                    <option>Argentina</option>
+                    <option>Brazil</option>
+                </optgroup>
+                <optgroup label="Second group">
+                    <option>Chile</option>
+                    <option>Costa Rica</option>
+                    <option>El Salvador</option>
+                    <option>Guatemala</option>
+                    <option>Honduras</option>
+                    <option>Mexico</option>
+                    <option>Nicaragua</option>
+                    <option>China</option>
+                    <option>India</option>
+                    <option>Japan</option>
+                    <option>Pakistan</option>
+                </optgroup>
+            </select>
+        </div>
+        <div class="form-btn">
+            <button type="button" onclick="getElementById('selectExampleMulti').selectedIndex = 2; rgkSelect('#selectExampleMulti', 'update');">Set 3rd selected</button>
+            <button type="button" onclick="addOption('#selectExampleMulti'); rgkSelect('#selectExampleMulti', 'build');">Add option</button>
+            <button type="button" onclick="rgkSelect('#selectExampleMulti', 'destroy');">Destroy</button>
+            <button type="button" onclick="rgkSelect('#selectExampleMulti');">Init</button>
+            <button type="button" onclick="toggleState('#selectExampleMulti', 'disabled');">Enable/Disable</button>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="selectExampleSingle">Select</label>
+        <div class="form-item">
+            <select id="selectExampleSingle">
+                <option data-placeholder selected>Choose country</option>
+                <option>Bangladesh</option>
+                <option>Botswana</option>
+                <option>Canada</option>
+                <option disabled>Dubai</option>
+                <option>Ghana</option>
+                <option>Lesotho</option>
+                <option>Malawi</option>
+                <optgroup label="First group">
+                    <option>Mozambique</option>
+                    <option>Namibia</option>
+                    <option>Nigeria</option>
+                    <option>South Africa</option>
+                    <option>Swaziland</option>
+                    <option>Tanzania</option>
+                    <option>Uganda</option>
+                    <option>United Kingdom</option>
+                    <option>Zambia</option>
+                    <option>Argentina</option>
+                    <option>Brazil</option>
+                </optgroup>
+                <optgroup label="Second group">
+                    <option>Chile</option>
+                    <option>Costa Rica</option>
+                    <option>El Salvador</option>
+                    <option>Guatemala</option>
+                    <option>Honduras</option>
+                    <option>Mexico</option>
+                    <option>Nicaragua</option>
+                    <option>China</option>
+                    <option>India</option>
+                    <option>Japan</option>
+                    <option>Pakistan</option>
+                </optgroup>
+            </select>
+        </div>
+        <div class="form-btn">
+            <button type="button" onclick="getElementById('selectExampleSingle').selectedIndex = 2; rgkSelect('#selectExampleSingle', 'update');">Set 3rd selected</button>
+            <button type="button" onclick="addOption('#selectExampleSingle'); rgkSelect('#selectExampleSingle', 'build');">Add option</button>
+            <button type="button" onclick="rgkSelect('#selectExampleSingle', 'destroy');">Destroy</button>
+            <button type="button" onclick="rgkSelect('#selectExampleSingle');">Init</button>
+            <button type="button" onclick="toggleState('#selectExampleSingle', 'disabled');">Enable/Disable</button>
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="button" onclick="this.form.reset();">Reset form</button>
+    </div>
+    <script>
+        rgkSelect('#selectExampleSingle');
+        rgkSelect('#selectExampleMulti');
+    </script>
+</form>
+
+</body>
+</html>
